@@ -8,8 +8,8 @@ import com.badlogic.gdx.utils.ScreenUtils;
 
 public class PantallaGameOver implements Screen {
 
-    private final SpaceNavigation game;
-    private final OrthographicCamera camera;
+    private SpaceNavigation game;
+    private OrthographicCamera camera;
 
     public PantallaGameOver(SpaceNavigation game) {
         this.game = game;

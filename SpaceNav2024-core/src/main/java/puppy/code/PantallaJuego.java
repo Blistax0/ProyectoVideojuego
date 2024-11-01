@@ -13,16 +13,16 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class PantallaJuego implements Screen {
 
-    private final SpaceNavigation game;
-    private final OrthographicCamera camera;
-    private final SpriteBatch batch;
-    private final Sound explosionSound;
-    private final Music gameMusic;
+    private SpaceNavigation game;
+    private OrthographicCamera camera;
+    private SpriteBatch batch;
+    private Sound explosionSound;
+    private Music gameMusic;
 
     private int score, ronda, velXAsteroides, velYAsteroides, cantAsteroides;
-    private final Nave4 nave;
-    private final ArrayList<Ball2> asteroides = new ArrayList<>();
-    private final ArrayList<Bullet> balas = new ArrayList<>();
+    private Nave4 nave;
+    private ArrayList<Ball2> asteroides = new ArrayList<>();
+    private ArrayList<Bullet> balas = new ArrayList<>();
 
     public PantallaJuego(SpaceNavigation game, int ronda, int vidas, int score, 
                          int velXAsteroides, int velYAsteroides, int cantAsteroides) {
