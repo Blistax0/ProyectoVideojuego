@@ -8,21 +8,19 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 
-public class Nave4 extends TipoObjeto implements movible {
+public class Nave4 extends TipoObjeto {
     private boolean destruida = false;
     private int vidas = 3;
     private boolean herido = false;
     private int tiempoHeridoMax = 50;
     private int tiempoHerido;
     private Sound sonidoHerido;
-    private Sound soundBala;
-    private Texture txBala;
+    private controlarDisparos Disparo;
 
     public Nave4(int x, int y, Texture tx, Sound soundChoque, Texture txBala, Sound soundBala) {
-        super(new Sprite(tx), 0, 0); // Velocidad inicial 0
-        sonidoHerido = soundChoque;
-        this.soundBala = soundBala;
-        this.txBala = txBala;
+        super(new Sprite(tx), 0, 0);
+        this.sonidoHerido = soundChoque;
+        this.Disparo = new controlarDisparos(txBala, soundBala);
         getSprite().setPosition(x, y);
         getSprite().setBounds(x, y, 45, 45);
     }
@@ -30,13 +28,11 @@ public class Nave4 extends TipoObjeto implements movible {
     @Override
     public void mover() {
         if (!herido) {
-        	// verificar teclas
             if (Gdx.input.isKeyJustPressed(Input.Keys.LEFT)) setXSpeed(getXSpeed() - 1);
             if (Gdx.input.isKeyJustPressed(Input.Keys.RIGHT)) setXSpeed(getXSpeed() + 1);
             if (Gdx.input.isKeyJustPressed(Input.Keys.DOWN)) setYSpeed(getYSpeed() - 1);
             if (Gdx.input.isKeyJustPressed(Input.Keys.UP)) setYSpeed(getYSpeed() + 1);
 
-            // Control de posicion y velocidad dentro de los limites
             float x = getSprite().getX();
             float y = getSprite().getY();
 
@@ -46,10 +42,7 @@ public class Nave4 extends TipoObjeto implements movible {
                 setYSpeed(-getYSpeed());
 
             setPosition(x + getXSpeed(), y + getYSpeed());
-        } 
-        
-        else {
-            // efecto de estar "herido"
+        } else {
             getSprite().setX(getSprite().getX() + MathUtils.random(-2, 2));
             tiempoHerido--;
             if (tiempoHerido <= 0) herido = false;
@@ -72,12 +65,14 @@ public class Nave4 extends TipoObjeto implements movible {
     public void draw(SpriteBatch batch, PantallaJuego juego) {
         mover();
         getSprite().draw(batch);
+        disparar(juego);
+    }
+
+    public void disparar(PantallaJuego juego) {
         if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
-            Bullet bala = new Bullet(getSprite().getX() + getSprite().getWidth() / 2 - 5,
-                                     getSprite().getY() + getSprite().getHeight() - 5,
-                                     0, 3, txBala);
+            Bullet bala = Disparo.crearBala(getSprite().getX() + getSprite().getWidth() / 2 - 5,
+                                                     getSprite().getY() + getSprite().getHeight() - 5);
             juego.agregarBala(bala);
-            soundBala.play();
         }
     }
 
