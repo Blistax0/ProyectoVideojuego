@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 
 
-public class Ball2 extends TipoObjeto {
+public class Ball2 extends TipoObjeto implements movible {
     private int xSpeed;
     private int ySpeed;
 
@@ -47,7 +47,7 @@ public class Ball2 extends TipoObjeto {
         if (otro instanceof Ball2) {
             Ball2 b2 = (Ball2) otro;
             if (getArea().overlaps(b2.getArea())) {
-                // rebote
+                // rebote contra los bordes
                 if (xSpeed == 0) xSpeed += b2.getXSpeed() / 2;
                 if (b2.getXSpeed() == 0) b2.setXSpeed(b2.getXSpeed() + xSpeed / 2);
                 xSpeed = -xSpeed;

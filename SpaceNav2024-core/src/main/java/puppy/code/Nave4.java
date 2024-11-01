@@ -8,7 +8,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 
-public class Nave4 extends TipoObjeto {
+public class Nave4 extends TipoObjeto implements movible {
     private boolean destruida = false;
     private int vidas = 3;
     private boolean herido = false;
@@ -30,11 +30,13 @@ public class Nave4 extends TipoObjeto {
     @Override
     public void mover() {
         if (!herido) {
+        	// verificar teclas
             if (Gdx.input.isKeyJustPressed(Input.Keys.LEFT)) setXSpeed(getXSpeed() - 1);
             if (Gdx.input.isKeyJustPressed(Input.Keys.RIGHT)) setXSpeed(getXSpeed() + 1);
             if (Gdx.input.isKeyJustPressed(Input.Keys.DOWN)) setYSpeed(getYSpeed() - 1);
             if (Gdx.input.isKeyJustPressed(Input.Keys.UP)) setYSpeed(getYSpeed() + 1);
 
+            // Control de posicion y velocidad dentro de los limites
             float x = getSprite().getX();
             float y = getSprite().getY();
 
@@ -44,7 +46,10 @@ public class Nave4 extends TipoObjeto {
                 setYSpeed(-getYSpeed());
 
             setPosition(x + getXSpeed(), y + getYSpeed());
-        } else {
+        } 
+        
+        else {
+            // efecto de estar "herido"
             getSprite().setX(getSprite().getX() + MathUtils.random(-2, 2));
             tiempoHerido--;
             if (tiempoHerido <= 0) herido = false;
