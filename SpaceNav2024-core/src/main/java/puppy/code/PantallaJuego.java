@@ -133,9 +133,9 @@ public class PantallaJuego implements Screen {
 
     private void dibujaEncabezado() {
         game.getFont().draw(batch, "Vidas: " + nave.getVidas(), 10, Gdx.graphics.getHeight() - 10);
-        game.getFont().draw(batch, "Score: " + score, 300, Gdx.graphics.getHeight() - 10);
-        game.getFont().draw(batch, "Ronda: " + ronda, 600, Gdx.graphics.getHeight() - 10);
-        game.getFont().draw(batch, "Record: " + game.getHighScore(), 900, Gdx.graphics.getHeight() - 10);
+        game.getFont().draw(batch, "Score: " + score, 350, Gdx.graphics.getHeight() - 10);
+        game.getFont().draw(batch, "Ronda: " + ronda, 700, Gdx.graphics.getHeight() - 10);
+        game.getFont().draw(batch, "Record: " + game.getHighScore(), 1000, Gdx.graphics.getHeight() - 10);
     }
     
     public boolean agregarBala(Bullet bb) {
