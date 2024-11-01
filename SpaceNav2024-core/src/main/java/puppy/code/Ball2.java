@@ -62,6 +62,7 @@ public class Ball2 {
             b2.setySpeed(- b2.getySpeed()); 
         }
     }
+    
 	public int getXSpeed() {
 		return xSpeed;
 	}
@@ -74,6 +75,4 @@ public class Ball2 {
 	public void setySpeed(int ySpeed) {
 		this.ySpeed = ySpeed;
 	}
-	
-    
 }

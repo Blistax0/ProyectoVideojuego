@@ -5,7 +5,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-
 public class Bullet {
 
 	private int xSpeed;
@@ -24,6 +23,7 @@ public class Bullet {
 	        if (spr.getX() < 0 || spr.getX()+spr.getWidth() > Gdx.graphics.getWidth()) {
 	            destroyed = true;
 	        }
+	        
 	        if (spr.getY() < 0 || spr.getY()+spr.getHeight() > Gdx.graphics.getHeight()) {
 	        	destroyed = true;
 	        }
@@ -39,11 +39,11 @@ public class Bullet {
 	        	// Se destruyen ambos
 	            this.destroyed = true;
 	            return true;
-	
 	        }
 	        return false;
 	    }
 	    
-	    public boolean isDestroyed() {return destroyed;}
-	
+	    public boolean isDestroyed() {
+	    	return destroyed;
+	    }
 }

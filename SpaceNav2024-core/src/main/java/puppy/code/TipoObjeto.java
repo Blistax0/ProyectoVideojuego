@@ -1,28 +1,60 @@
 package puppy.code;
 
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Rectangle;
 
 public abstract class TipoObjeto {
-    protected int x, y, xSpeed, ySpeed;
+    private float x, y;
+    private float velocidadX, velocidadY;
+    protected Sprite spr;
 
-    public TipoObjeto(int x, int y, int xSpeed, int ySpeed) {
+    public TipoObjeto(float x, float y, float velocidadX, float velocidadY, Sprite sprite) {
         this.x = x;
         this.y = y;
-        this.xSpeed = xSpeed;
-        this.ySpeed = ySpeed;
+        this.velocidadX = velocidadX;
+        this.velocidadY = velocidadY;
+        this.spr = sprite;
+        this.spr.setPosition(x, y);
     }
 
-    public abstract void update(); // actualización de posicion u otras propiedades
-    public abstract void draw(SpriteBatch batch); // dibuja el objeto
-    public abstract Rectangle getArea(); // obtiene el area para detección de colisiones
-
-    public void checkCollision(TipoObjeto other) {
-        if (this.getArea().overlaps(other.getArea())) {
-            this.onCollision(other);
-            other.onCollision(this);
-        }
+    public float getX() {
+        return x;
     }
 
-    protected abstract void onCollision(TipoObjeto other); // define comportamiento en colision
+    public float getY() {
+        return y;
+    }
+
+    public void setX(float x) {
+        this.x = x;
+        spr.setX(x);
+    }
+
+    public void setY(float y) {
+        this.y = y;
+        spr.setY(y);
+    }
+
+    public float getVelocidadX() {
+        return velocidadX;
+    }
+
+    public void setVelocidadX(float velocidadX) {
+        this.velocidadX = velocidadX;
+    }
+
+    public float getVelocidadY() {
+        return velocidadY;
+    }
+
+    public void setVelocidadY(float velocidadY) {
+        this.velocidadY = velocidadY;
+    }
+
+    public Rectangle getArea() {
+        return spr.getBoundingRectangle();
+    }
+
+    public abstract void mover();
+    public abstract boolean colisionar(TipoObjeto otro);
 }
