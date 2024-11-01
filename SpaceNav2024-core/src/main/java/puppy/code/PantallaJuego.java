@@ -70,7 +70,6 @@ public class PantallaJuego implements Screen {
     }
 
     private void actualizarColisiones() {
-        // Colisiones entre balas y asteroides
         for (int i = 0; i < balas.size(); i++) {
             Bullet bala = balas.get(i);
             bala.update();
@@ -88,20 +87,18 @@ public class PantallaJuego implements Screen {
             }
         }
 
-        // Colisiones entre asteroides
         for (int i = 0; i < asteroides.size(); i++) {
             Ball2 ast1 = asteroides.get(i);
-            ast1.update();
+            ast1.mover();
             for (int j = i + 1; j < asteroides.size(); j++) {
                 Ball2 ast2 = asteroides.get(j);
-                ast1.checkCollision(ast2);
+                ast1.colisionar(ast2);
             }
         }
 
-        // Colisión nave y asteroides
         for (int i = 0; i < asteroides.size(); i++) {
             Ball2 asteroide = asteroides.get(i);
-            if (nave.checkCollision(asteroide)) {
+            if (nave.colisionar(asteroide)) {
                 asteroides.remove(i);
                 i--;
             }
@@ -142,44 +139,29 @@ public class PantallaJuego implements Screen {
     }
     
     public boolean agregarBala(Bullet bb) {
-    	return balas.add(bb);
+        return balas.add(bb);
     }
-	
-	@Override
-	public void show() {
-		// TODO Auto-generated method stub
-		gameMusic.play();
-	}
 
-	@Override
-	public void resize(int width, int height) {
-		// TODO Auto-generated method stub
-		
-	}
+    @Override
+    public void show() {
+        gameMusic.play();
+    }
 
-	@Override
-	public void pause() {
-		// TODO Auto-generated method stub
-		
-	}
+    @Override
+    public void resize(int width, int height) {}
 
-	@Override
-	public void resume() {
-		// TODO Auto-generated method stub
-		
-	}
+    @Override
+    public void pause() {}
 
-	@Override
-	public void hide() {
-		// TODO Auto-generated method stub
-		
-	}
+    @Override
+    public void resume() {}
 
-	@Override
-	public void dispose() {
-		// TODO Auto-generated method stub
-		this.explosionSound.dispose();
-		this.gameMusic.dispose();
-	}
-   
+    @Override
+    public void hide() {}
+
+    @Override
+    public void dispose() {
+        explosionSound.dispose();
+        gameMusic.dispose();
+    }
 }

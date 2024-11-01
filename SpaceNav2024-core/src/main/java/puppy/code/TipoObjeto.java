@@ -16,6 +16,7 @@ public abstract class TipoObjeto {
     }
 
     public abstract void mover();
+    
     public abstract boolean colisionar(TipoObjeto otro);
     
     public void draw(SpriteBatch batch) {
