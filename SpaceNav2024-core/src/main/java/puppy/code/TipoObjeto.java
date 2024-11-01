@@ -1,60 +1,52 @@
 package puppy.code;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 
 public abstract class TipoObjeto {
-    private float x, y;
-    private float velocidadX, velocidadY;
-    protected Sprite spr;
+    private Sprite sprite;
+    private int xSpeed;
+    private int ySpeed;
 
-    public TipoObjeto(float x, float y, float velocidadX, float velocidadY, Sprite sprite) {
-        this.x = x;
-        this.y = y;
-        this.velocidadX = velocidadX;
-        this.velocidadY = velocidadY;
-        this.spr = sprite;
-        this.spr.setPosition(x, y);
-    }
-
-    public float getX() {
-        return x;
-    }
-
-    public float getY() {
-        return y;
-    }
-
-    public void setX(float x) {
-        this.x = x;
-        spr.setX(x);
-    }
-
-    public void setY(float y) {
-        this.y = y;
-        spr.setY(y);
-    }
-
-    public float getVelocidadX() {
-        return velocidadX;
-    }
-
-    public void setVelocidadX(float velocidadX) {
-        this.velocidadX = velocidadX;
-    }
-
-    public float getVelocidadY() {
-        return velocidadY;
-    }
-
-    public void setVelocidadY(float velocidadY) {
-        this.velocidadY = velocidadY;
-    }
-
-    public Rectangle getArea() {
-        return spr.getBoundingRectangle();
+    public TipoObjeto(Sprite sprite, int xSpeed, int ySpeed) {
+        this.sprite = sprite;
+        this.xSpeed = xSpeed;
+        this.ySpeed = ySpeed;
     }
 
     public abstract void mover();
     public abstract boolean colisionar(TipoObjeto otro);
+    
+    public void draw(SpriteBatch batch) {
+        sprite.draw(batch);
+    }
+
+    public Rectangle getArea() {
+        return sprite.getBoundingRectangle();
+    }
+
+    public Sprite getSprite() {
+        return sprite;
+    }
+
+    public int getXSpeed() {
+        return xSpeed;
+    }
+
+    public void setXSpeed(int xSpeed) {
+        this.xSpeed = xSpeed;
+    }
+
+    public int getYSpeed() {
+        return ySpeed;
+    }
+
+    public void setYSpeed(int ySpeed) {
+        this.ySpeed = ySpeed;
+    }
+
+    public void setPosition(float x, float y) {
+        sprite.setPosition(x, y);
+    }
 }
