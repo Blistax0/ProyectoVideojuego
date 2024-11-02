@@ -25,8 +25,10 @@ public class PantallaMenu implements Screen {
         game.getBatch().setProjectionMatrix(camera.combined);
 
         game.getBatch().begin();
-        game.getFont().draw(game.getBatch(), "Bienvenido a Space Navigation !", 140, 400);
-        game.getFont().draw(game.getBatch(), "Pincha en cualquier lado o presiona cualquier tecla para comenzar ...", 100, 300);
+        game.getFont().draw(game.getBatch(), "Bienvenido a Space Navigation !", 400, 700);
+        game.getFont().draw(game.getBatch(), "Pincha en cualquier lado o presiona cualquier tecla para comenzar ...", 170, 500);
+        game.getFont().draw(game.getBatch(), "Movimiento: Flechas del teclado", 390, 200);
+        game.getFont().draw(game.getBatch(), "Disparo: Barra espaciadora", 410, 150);
         game.getBatch().end();
 
         if (Gdx.input.isTouched() || Gdx.input.isKeyJustPressed(Input.Keys.ANY_KEY)) {
