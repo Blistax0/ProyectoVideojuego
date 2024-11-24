@@ -14,6 +14,6 @@ public class controlarDisparos {
 
     public Bullet crearBala(float x, float y) {
         soundBala.play();
-        return new Bullet(x, y, 0, 3, txBala);
+        return new Bullet(x, y, 0, 10, txBala);
     }
 }
