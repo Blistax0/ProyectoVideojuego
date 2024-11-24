@@ -10,7 +10,6 @@ import com.badlogic.gdx.math.MathUtils;
 
 public class Nave4 extends TipoObjeto implements movible{
     private boolean destruida = false;
-    private int vidas = 3;
     private boolean herido = false;
     private int tiempoHeridoMax = 50;
     private int tiempoHerido;
@@ -51,12 +50,15 @@ public class Nave4 extends TipoObjeto implements movible{
 
     @Override
     public boolean colisionar(TipoObjeto otro) {
+    	SistemaPuntosVidas puntuacion = SistemaPuntosVidas.getInstance();
+    	
         if (!herido && otro.getArea().overlaps(getArea())) {
-            vidas--;
             herido = true;
             tiempoHerido = tiempoHeridoMax;
             sonidoHerido.play();
-            if (vidas <= 0) destruida = true;
+            if (puntuacion.juegoTerminado()) {
+            	destruida = true;
+            } 
             return true;
         }
         return false;
@@ -78,14 +80,6 @@ public class Nave4 extends TipoObjeto implements movible{
 
     public boolean estaDestruido() {
         return !herido && destruida;
-    }
-
-    public int getVidas() {
-        return vidas;
-    }
-
-    public void setVidas(int vidas) {
-        this.vidas = vidas;
     }
 
     public boolean estaHerido() {
