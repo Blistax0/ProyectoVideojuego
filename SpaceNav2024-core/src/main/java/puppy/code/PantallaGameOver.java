@@ -35,7 +35,9 @@ public class PantallaGameOver implements Screen {
     }
 
     private void reiniciarJuego() {
-        PantallaJuego pantallaJuego = new PantallaJuego(game, 1, 3, 0, 1, 1, 10);
+    	SistemaPuntosVidas puntuacion = SistemaPuntosVidas.getInstance(); 
+    	puntuacion.reiniciarJuego();
+        PantallaJuego pantallaJuego = new PantallaJuego(game, 1, 1, 10);
         game.setScreen(pantallaJuego);
         dispose();
     }

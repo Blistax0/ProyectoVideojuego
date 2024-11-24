@@ -37,7 +37,7 @@ public class PantallaMenu implements Screen {
     }
 
     private void iniciarJuego() {
-        PantallaJuego pantallaJuego = new PantallaJuego(game, 1, 3, 0, 1, 1, 10);
+        PantallaJuego pantallaJuego = new PantallaJuego(game, 1, 1, 10);
         game.setScreen(pantallaJuego);
         dispose();
     }
