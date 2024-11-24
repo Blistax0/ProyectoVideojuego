@@ -19,16 +19,14 @@ public class PantallaJuego implements Screen {
     private Sound explosionSound;
     private Music gameMusic;
 
-    private int score, ronda, velXAsteroides, velYAsteroides, cantAsteroides;
+    private int velXAsteroides, velYAsteroides, cantAsteroides;
     private Nave4 nave;
     private ArrayList<Ball2> asteroides = new ArrayList<>();
     private ArrayList<Bullet> balas = new ArrayList<>();
 
-    public PantallaJuego(SpaceNavigation game, int ronda, int vidas, int score, 
-                         int velXAsteroides, int velYAsteroides, int cantAsteroides) {
+    public PantallaJuego(SpaceNavigation game, int velXAsteroides, 
+    					 int velYAsteroides, int cantAsteroides) {
         this.game = game;
-        this.ronda = ronda;
-        this.score = score;
         this.velXAsteroides = velXAsteroides;
         this.velYAsteroides = velYAsteroides;
         this.cantAsteroides = cantAsteroides;
@@ -43,17 +41,16 @@ public class PantallaJuego implements Screen {
         gameMusic.setVolume(0.5f);
         gameMusic.play();
 
-        nave = crearNave(vidas);
+        nave = crearNave();
         generarAsteroides();
     }
 
-    private Nave4 crearNave(int vidas) {
+    private Nave4 crearNave() {
         Nave4 nave = new Nave4(Gdx.graphics.getWidth() / 2 - 50, 30, 
                                new Texture(Gdx.files.internal("MainShip3.png")),
                                Gdx.audio.newSound(Gdx.files.internal("hurt.ogg")), 
                                new Texture(Gdx.files.internal("Rocket2.png")), 
                                Gdx.audio.newSound(Gdx.files.internal("pop-sound.mp3")));
-        nave.setVidas(vidas);
         return nave;
     }
 
@@ -70,6 +67,8 @@ public class PantallaJuego implements Screen {
     }
 
     private void actualizarColisiones() {
+    	SistemaPuntosVidas puntuacion = SistemaPuntosVidas.getInstance();
+    	
         for (int i = 0; i < balas.size(); i++) {
             Bullet bala = balas.get(i);
             bala.update();
@@ -78,7 +77,7 @@ public class PantallaJuego implements Screen {
                     explosionSound.play();
                     asteroides.remove(j);
                     j--;
-                    score += 10;
+                    puntuacion.agregarPuntos(10);
                 }     
             }
             if (bala.isDestroyed()) {
@@ -97,17 +96,21 @@ public class PantallaJuego implements Screen {
         }
 
         for (int i = 0; i < asteroides.size(); i++) {
-            Ball2 asteroide = asteroides.get(i);
-            if (nave.colisionar(asteroide)) {
-                asteroides.remove(i);
-                i--;
+        	Ball2 asteroide = asteroides.get(i);
+            asteroide.mover();
+            if(nave.colisionar(asteroide)) {
+            	asteroides.remove(i);
+            	i--;
+            	puntuacion.restarVida();
             }
         }
     }
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+    	SistemaPuntosVidas puntuacion = SistemaPuntosVidas.getInstance();
+        
+    	Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.begin();
         dibujaEncabezado();
         
@@ -120,6 +123,19 @@ public class PantallaJuego implements Screen {
         balas.forEach(bala -> bala.draw(batch));
         batch.end();
 
+        if (puntuacion.juegoTerminado()) {
+            game.setScreen(new PantallaGameOver(game));
+            dispose();
+        } 
+        
+        else if (asteroides.isEmpty()) {
+            puntuacion.avanzarRonda();
+            game.setScreen(new PantallaJuego(game, velXAsteroides + 1, velYAsteroides + 1,
+            								 cantAsteroides + 1));
+            dispose();
+        }
+        
+        /*
         if (nave.estaDestruido()) {
             if (score > game.getHighScore()) game.setHighScore(score);
             game.setScreen(new PantallaGameOver(game));
@@ -129,13 +145,15 @@ public class PantallaJuego implements Screen {
                                              velXAsteroides + 1, velYAsteroides + 1, cantAsteroides + 1));
             dispose();
         }
+        */
     }
 
     private void dibujaEncabezado() {
-        game.getFont().draw(batch, "Vidas: " + nave.getVidas(), 10, Gdx.graphics.getHeight() - 10);
-        game.getFont().draw(batch, "Score: " + score, 350, Gdx.graphics.getHeight() - 10);
-        game.getFont().draw(batch, "Ronda: " + ronda, 700, Gdx.graphics.getHeight() - 10);
-        game.getFont().draw(batch, "Record: " + game.getHighScore(), 1000, Gdx.graphics.getHeight() - 10);
+    	SistemaPuntosVidas puntuacion = SistemaPuntosVidas.getInstance();
+        game.getFont().draw(batch, "Vidas: " + puntuacion.getVidas(), 10, Gdx.graphics.getHeight() - 10);
+        game.getFont().draw(batch, "Score: " + puntuacion.getPuntos(), 350, Gdx.graphics.getHeight() - 10);
+        game.getFont().draw(batch, "Ronda: " + puntuacion.getRonda(), 700, Gdx.graphics.getHeight() - 10);
+        game.getFont().draw(batch, "Record: " + puntuacion.getRecord(), 1000, Gdx.graphics.getHeight() - 10);
     }
     
     public boolean agregarBala(Bullet bb) {
