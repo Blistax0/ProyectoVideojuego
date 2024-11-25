@@ -35,6 +35,7 @@ public class Ball2 extends TipoObjeto implements movible {
         if (x < 0 || x + getSprite().getWidth() > Gdx.graphics.getWidth()) {
             xSpeed *= -1;
         }
+        
         if (y < 0 || y + getSprite().getHeight() > Gdx.graphics.getHeight()) {
             ySpeed *= -1;
         }
