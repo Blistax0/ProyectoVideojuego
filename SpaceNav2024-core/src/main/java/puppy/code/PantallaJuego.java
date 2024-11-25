@@ -166,7 +166,7 @@ public class PantallaJuego implements Screen {
         }
         
         if (tiempoPowerUp > 0) {
-            tiempoPowerUp -= delta;
+            tiempoPowerUp -= 1;
             if (tiempoPowerUp <= 0) {
                 nave.setTipoDisparo(new DisparoNormal()); // Restaurar disparo normal
             }
