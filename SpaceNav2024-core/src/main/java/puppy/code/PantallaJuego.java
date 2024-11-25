@@ -101,7 +101,6 @@ public class PantallaJuego implements Screen {
             if(nave.colisionar(asteroide)) {
             	asteroides.remove(i);
             	i--;
-            	puntuacion.restarVida();
             }
         }
     }

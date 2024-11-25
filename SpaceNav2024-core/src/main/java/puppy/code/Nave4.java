@@ -41,7 +41,9 @@ public class Nave4 extends TipoObjeto implements movible{
                 setYSpeed(-getYSpeed());
 
             setPosition(x + getXSpeed(), y + getYSpeed());
-        } else {
+        } 
+        
+        else {
             getSprite().setX(getSprite().getX() + MathUtils.random(-2, 2));
             tiempoHerido--;
             if (tiempoHerido <= 0) herido = false;
@@ -56,6 +58,7 @@ public class Nave4 extends TipoObjeto implements movible{
             herido = true;
             tiempoHerido = tiempoHeridoMax;
             sonidoHerido.play();
+            puntuacion.restarVida();
             if (puntuacion.juegoTerminado()) {
             	destruida = true;
             } 
@@ -65,16 +68,16 @@ public class Nave4 extends TipoObjeto implements movible{
     }
 
     public void draw(SpriteBatch batch, PantallaJuego juego) {
-        mover();
-        getSprite().draw(batch);
+        actualizar(batch);
         disparar(juego);
     }
 
     public void disparar(PantallaJuego juego) {
-        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
+    	if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
             Bullet bala = Disparo.crearBala(getSprite().getX() + getSprite().getWidth() / 2 - 5,
                                                      getSprite().getY() + getSprite().getHeight() - 5);
             juego.agregarBala(bala);
+            
         }
     }
 
