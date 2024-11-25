@@ -48,6 +48,19 @@ public class Ball2 extends TipoObjeto implements movible {
             Ball2 b2 = (Ball2) otro;
             if (getArea().overlaps(b2.getArea())) {
                 // rebote contra los bordes
+            	
+            	// Intercambio de velocidades para un rebote más natural
+                int tempXSpeed = xSpeed;
+                int tempYSpeed = ySpeed;
+                
+                // Invertir las velocidades en X y Y
+                xSpeed = b2.getXSpeed();
+                ySpeed = b2.getYSpeed();
+                b2.setXSpeed(tempXSpeed);
+                b2.setYSpeed(tempYSpeed);
+            	
+            	
+            	/*
                 if (xSpeed == 0) xSpeed += b2.getXSpeed() / 2;
                 if (b2.getXSpeed() == 0) b2.setXSpeed(b2.getXSpeed() + xSpeed / 2);
                 xSpeed = -xSpeed;
@@ -57,6 +70,8 @@ public class Ball2 extends TipoObjeto implements movible {
                 if (b2.getYSpeed() == 0) b2.setYSpeed(b2.getYSpeed() + ySpeed / 2);
                 ySpeed = -ySpeed;
                 b2.setYSpeed(-b2.getYSpeed());
+                */
+                
                 return true;
             }
         }
