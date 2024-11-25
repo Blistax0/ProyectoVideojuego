@@ -13,16 +13,21 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class PantallaJuego implements Screen {
 
+	private float tiempoPowerUp;
+	private float duracionMaxima = 10;
+	
     private SpaceNavigation game;
     private OrthographicCamera camera;
     private SpriteBatch batch;
     private Sound explosionSound;
     private Music gameMusic;
+    private Texture textureDisparoDoble;
 
     private int velXAsteroides, velYAsteroides, cantAsteroides;
     private Nave4 nave;
     private ArrayList<Ball2> asteroides = new ArrayList<>();
     private ArrayList<Bullet> balas = new ArrayList<>();
+    private ArrayList<PowerUp> powerUps = new ArrayList<>();
 
     public PantallaJuego(SpaceNavigation game, int velXAsteroides, 
     					 int velYAsteroides, int cantAsteroides) {
@@ -37,12 +42,14 @@ public class PantallaJuego implements Screen {
 
         explosionSound = Gdx.audio.newSound(Gdx.files.internal("explosion.ogg"));
         gameMusic = Gdx.audio.newMusic(Gdx.files.internal("piano-loops.wav"));
+        textureDisparoDoble = new Texture(Gdx.files.internal("tiroDoble.png"));
         gameMusic.setLooping(true);
         gameMusic.setVolume(0.5f);
         gameMusic.play();
 
         nave = crearNave();
         generarAsteroides();
+        generarPowerUps();
     }
 
     private Nave4 crearNave() {
@@ -53,7 +60,17 @@ public class PantallaJuego implements Screen {
                                Gdx.audio.newSound(Gdx.files.internal("pop-sound.mp3")));
         return nave;
     }
-
+    
+    private void generarPowerUps() {
+    	Random r = new Random();
+  
+        for (int i = 0; i < 2; i++) { 
+            float x = r.nextInt(Gdx.graphics.getWidth() - 30);
+            float y = r.nextInt(Gdx.graphics.getHeight() - 30);
+            powerUps.add(new PowerUp(x, y, textureDisparoDoble));
+        }
+    }
+    
     private void generarAsteroides() {
         Random r = new Random();
         for (int i = 0; i < cantAsteroides; i++) {
@@ -103,6 +120,19 @@ public class PantallaJuego implements Screen {
             	i--;
             }
         }
+        
+        for (int i = 0; i < powerUps.size(); i++) {
+            PowerUp powerUp = powerUps.get(i);
+            if (powerUp.isActivo() && nave.colisionar(powerUp)) {
+                nave.setTipoDisparo(new DisparoDoble()); // Cambiar a disparo doble
+                tiempoPowerUp = duracionMaxima; // Iniciar temporizador
+                powerUp.desactivar(); // Desactivar el Power-Up
+                powerUps.remove(i); // Eliminarlo de la lista
+                i--;
+            }
+        }
+        
+        
     }
 
     @Override
@@ -120,6 +150,7 @@ public class PantallaJuego implements Screen {
         nave.draw(batch, this);
         asteroides.forEach(asteroide -> asteroide.draw(batch));
         balas.forEach(bala -> bala.draw(batch));
+        powerUps.forEach(powerUp -> powerUp.draw(batch));
         batch.end();
 
         if (puntuacion.juegoTerminado()) {
@@ -132,6 +163,13 @@ public class PantallaJuego implements Screen {
             game.setScreen(new PantallaJuego(game, velXAsteroides + 1, velYAsteroides + 1,
             								 cantAsteroides + 1));
             dispose();
+        }
+        
+        if (tiempoPowerUp > 0) {
+            tiempoPowerUp -= delta;
+            if (tiempoPowerUp <= 0) {
+                nave.setTipoDisparo(new DisparoNormal()); // Restaurar disparo normal
+            }
         }
         
         /*
@@ -180,5 +218,6 @@ public class PantallaJuego implements Screen {
     public void dispose() {
         explosionSound.dispose();
         gameMusic.dispose();
+        textureDisparoDoble.dispose();
     }
 }
