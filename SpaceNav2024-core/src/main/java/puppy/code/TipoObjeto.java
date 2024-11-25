@@ -14,7 +14,12 @@ public abstract class TipoObjeto {
         this.xSpeed = xSpeed;
         this.ySpeed = ySpeed;
     }
-
+    
+    public final void actualizar(SpriteBatch batch) {
+    	mover();
+    	draw(batch);
+    }
+    
     public abstract void mover();
     
     public abstract boolean colisionar(TipoObjeto otro);
