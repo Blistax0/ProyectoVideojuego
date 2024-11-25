@@ -15,6 +15,7 @@ public abstract class TipoObjeto {
         this.ySpeed = ySpeed;
     }
     
+    //Template Method
     public final void actualizar(SpriteBatch batch) {
     	mover();
     	draw(batch);
