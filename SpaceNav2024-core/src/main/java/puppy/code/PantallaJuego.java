@@ -59,8 +59,8 @@ public class PantallaJuego implements Screen {
         for (int i = 0; i < cantAsteroides; i++) {
             Ball2 asteroide = new Ball2(r.nextInt(Gdx.graphics.getWidth()),
                                         50 + r.nextInt(Gdx.graphics.getHeight() - 50),
-                                        20 + r.nextInt(10), velXAsteroides + r.nextInt(4), 
-                                        velYAsteroides + r.nextInt(4), 
+                                        20 + r.nextInt(10), velXAsteroides + r.nextInt(2), 
+                                        velYAsteroides + r.nextInt(2), 
                                         new Texture(Gdx.files.internal("aGreyMedium4.png")));
             asteroides.add(asteroide);
         }
